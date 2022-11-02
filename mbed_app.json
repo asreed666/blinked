@@ -1,0 +1,12 @@
+{
+    "target_overrides": {
+        "*": {
+            "platform.minimal-printf-enable-floating-point": true,
+            "platform.minimal-printf-set-floating-point-max-decimals": 2,
+            "target.printf_lib":"std",
+            "platform.stdio-convert-newlines": true,
+            "platform.stdio-baud-rate": 115200,
+            "platform.default-serial-baud-rate": 115200
+        }
+    }
+}
