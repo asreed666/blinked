@@ -5,7 +5,6 @@
 
 #include "mbed.h"
 
-
 // Blinking rate in milliseconds
 #define BLINKING_RATE     2s
 #define thermPower P10_3
