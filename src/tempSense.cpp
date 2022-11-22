@@ -2,18 +2,18 @@
 #include "constants.h"
 #include "tempSense.h"
 
-DigitalOut vdd(thermPower);
-DigitalOut gnd(thermGround);
+//DigitalOut vdd(thermPower);
+//DigitalOut gnd(thermGround);
 AnalogIn temperatureVoltage( thermOut );
 
 float readTemp() {
     // Power on the thermistor
-    gnd = false;
-    vdd = true;
+//    gnd = false;
+//    vdd = true;
     // read the voltage from thermistor
     float refVoltage = temperatureVoltage.read() * 2.4; // Range of ADC 0->2*Vref
     // power off the thermistor
-    vdd = false;
+//    vdd = false;
     float refCurrent = refVoltage  / 10000.0; // 10k Reference Resistor
     float thermVoltage = 3.3 - refVoltage;    // Assume supply voltage is 3.3v
     float thermResistance = thermVoltage / refCurrent; 

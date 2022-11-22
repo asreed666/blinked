@@ -1,8 +1,9 @@
 // Blinking rate in milliseconds
 #define BLINKING_RATE     2s
-#define thermPower P10_3
-#define thermGround P10_0
+//#define thermPower P10_3
+//#define thermGround P10_0
 #define thermOut P10_1
+#define lightOut P10_4
 
 /* Reference resistor in series with the thermistor is of 10kohm */
 #define R_REFERENCE                         (float)(10000)
