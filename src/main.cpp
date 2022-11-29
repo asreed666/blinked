@@ -7,10 +7,12 @@
 #include "stdio.h"
 #include "tempSense.h"
 #include "lightLevel.h"
+#include "switchPos.h"
 #include "constants.h"
 
 // Initialise the digital pin LED1 as an output
 DigitalOut led(LED1);
+DigitalOut green(greenLed);
 
 int main()
 {
@@ -21,5 +23,8 @@ int main()
         printf("The temperature is: %2.1fC\n", temperature);
         float lightLevel = readLight();
         printf("The light level is: %2.1f%c\n", lightLevel, '%');
+        int switchState = switchPos();
+        green = !switchState;
+        printf("The switch is %s\n", switchState?"not Pressed":"Pressed");
     }
 }
