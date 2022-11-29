@@ -2,11 +2,12 @@
 #include "constants.h"
 #include "tempSense.h"
 
+extern things_t myData;
 //DigitalOut vdd(thermPower);
 //DigitalOut gnd(thermGround);
 AnalogIn temperatureVoltage( thermOut );
 
-float readTemp() {
+void readTemp() {
     // Power on the thermistor
 //    gnd = false;
 //    vdd = true;
@@ -22,5 +23,6 @@ float readTemp() {
     float stEqn = (float32_t)((A_COEFF) + ((B_COEFF) * logrT) + 
                              ((C_COEFF) * pow((float64)logrT, (float32)3)));
     float temperatureC = (float32_t)(((1.0 / stEqn) + ABSOLUTE_ZERO)  + 0.05);
-    return temperatureC;
+    myData.temperature = temperatureC;
+    ThisThread::sleep_for(1s);
 }

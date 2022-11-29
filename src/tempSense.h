@@ -1,2 +1,2 @@
 // prototype for function calls
-float readTemp();
+void readTemp();

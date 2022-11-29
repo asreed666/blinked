@@ -1,2 +1,2 @@
 // prototype for function calls
-int switchPos();
+void switchPos();

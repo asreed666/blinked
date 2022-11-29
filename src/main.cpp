@@ -8,23 +8,28 @@
 #include "tempSense.h"
 #include "lightLevel.h"
 #include "switchPos.h"
+#include "displayTask.h"
 #include "constants.h"
+
+things_t myData;
 
 // Initialise the digital pin LED1 as an output
 DigitalOut led(LED1);
-DigitalOut green(greenLed);
+
+
+Thread readTempHandle;
+Thread readLightHandle;
+Thread readButtonHandle;
+Thread displayTaskHandle;
 
 int main()
 {
+    displayTaskHandle.start(callback(displayTask));
+    readTempHandle.start(callback(readTemp));
+    readLightHandle.start(callback(readLight));
+    readButtonHandle.start(callback(switchPos));
     while (true) {
         led = !led;
         ThisThread::sleep_for(BLINKING_RATE);
-        float temperature = readTemp();
-        printf("The temperature is: %2.1fC\n", temperature);
-        float lightLevel = readLight();
-        printf("The light level is: %2.1f%c\n", lightLevel, '%');
-        int switchState = switchPos();
-        green = !switchState;
-        printf("The switch is %s\n", switchState?"not Pressed":"Pressed");
     }
 }
