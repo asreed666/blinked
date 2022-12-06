@@ -24,6 +24,7 @@ Thread displayTaskHandle;
 
 int main()
 {
+    printf("Starting\n");
     displayTaskHandle.start(callback(displayTask));
     readTempHandle.start(callback(readTemp));
     readLightHandle.start(callback(readLight));
