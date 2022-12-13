@@ -24,5 +24,10 @@
 #define C_COEFF                          (float)(0.0000002041094f)
 
 /* Zero Kelvin in degree C */
-#define ABSOLUTE_ZERO                       (float)(-273.15)
+#define ABSOLUTE_ZERO                    (float)(-273.15)
+struct things_t {
+    float tempC;
+    float lightL;
+    bool buttonState;
+};
 #endif

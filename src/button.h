@@ -1,5 +1,5 @@
 #ifndef BUTTONINC
 #define BUTTONINC
 // prototype for function calls
-bool readButtonState();
+void readButtonState();
 #endif
