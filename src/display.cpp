@@ -8,11 +8,17 @@ extern things_t myData;
 void displayTask() {
     DigitalOut green(GREENLED);
     RIS;  // reset vt100 terminal
+    ThisThread::sleep_for(5000ms);
+    HIDE_CURSOR;
+    BOLD;
+    
+    printf("\033[1;20HEnvironmental Sensing");
+    NORMAL;
     while(true) {
         ThisThread::sleep_for(500ms);
-        HOME; // VT100 Home the cursor
+    //    HOME; // VT100 Home the cursor
         CYAN_TEXT;
-        printf("The LED is %s\n", myData.buttonState?"\033[1;32mOn ":"\033[2;32mOff");
+        printf("\033[8;3HThe LED is %s\n", myData.buttonState?"\033[1;32mOn ":"\033[2;32mOff");
         if (myData.buttonState == true) {
             BLUE_BOLD;
             green = true;
@@ -22,9 +28,9 @@ void displayTask() {
             BLUE_TEXT;
         }
  
-        printf("Temperature: %2.1fC \n", myData.tempC);
+        printf("\033[10;3HTemperature: %2.1fC \n", myData.tempC);
         GREEN_TEXT;
-        printf("Light Level: %3.0f%c \n", myData.lightL, '%');
+        printf("\033[12;3HLight Level: %3.0f%c \n", myData.lightL, '%');
     }
 
 }
