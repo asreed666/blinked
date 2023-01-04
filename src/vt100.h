@@ -163,7 +163,7 @@
 
 #define BLOCK "█" // Rectangular Block
 //#define POSX(x)      CSI #x "G"         
-//#define GOTOXY(x,y)    "\033[y;xH"     // Esc[Column;LineH
+#define GOTOLC(y,x)    "\033[y;xH"     // Esc[Line;ColumnH
 // #define POS(x,y)     CSI #y ";" #x "H" // cursorpos(v,h) CUP    Move cursor to screen location v,h     ^[[<v>;<h>H
 // #define CUD(x)          "\033[xB"      // cursordn(n) CUD       Move cursor down n lines               ^[[<n>B
 // Esc[ValueA   Move cursor up n lines      CUU
