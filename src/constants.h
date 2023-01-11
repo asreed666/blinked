@@ -22,6 +22,10 @@
 
 struct things_t {
     float temperature;
+    float setTemp = 18.0f;
+    bool heaterState = false;
     float lightLevel;
+    float setLight = 50.0f;
+    bool lightState = false;
     bool switchState;
 };
