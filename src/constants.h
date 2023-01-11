@@ -27,7 +27,11 @@
 #define ABSOLUTE_ZERO                    (float)(-273.15)
 struct things_t {
     float tempC;
+    float setTemp = 18.0f;
+    bool heaterState;
     float lightL;
+    float setLightLevel = 50.0f;
+    bool lightState;
     bool buttonState;
 };
 #endif

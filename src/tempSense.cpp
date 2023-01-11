@@ -30,6 +30,12 @@ void readTemp() {
                               ((C_COEFF)*pow((float64)logrT, (float32)3)));
     float temperatureC = (float32_t)(((1.0 / stEqn) + ABSOLUTE_ZERO) + 0.05);
     myData.tempC = temperatureC;
+    if (myData.tempC > myData.setTemp + 2.0f) {
+        myData.heaterState = false; // turn the heater off
+    }
+    else if (myData.tempC < myData.setTemp - 2.0f) {
+        myData.heaterState = true;  // turn the heater on
+    }
     ThisThread::sleep_for(500ms);
 
   }
