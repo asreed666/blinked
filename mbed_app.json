@@ -1,4 +1,13 @@
-{
+{    "config": {
+        "wifi-ssid": {
+            "help": "WiFi SSID",
+            "value": "\"brackenhillc\""
+        },
+        "wifi-password": {
+            "help": "WiFi Password",
+            "value": "\"1broches\""
+        }
+    },
     "target_overrides": {
         "*": {
             "platform.minimal-printf-enable-floating-point": true,

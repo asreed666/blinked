@@ -10,6 +10,7 @@
 #include "switchPos.h"
 #include "displayTask.h"
 #include "constants.h"
+#include "wifiThread.h"
 
 things_t myData;
 
@@ -21,10 +22,12 @@ Thread readTempHandle;
 Thread readLightHandle;
 Thread readButtonHandle;
 Thread displayTaskHandle;
+Thread wifiTaskHandle;
 
 int main()
 {
     printf("Starting\n");
+    wifiTaskHandle.start(callback(wifiThreadTask));
     displayTaskHandle.start(callback(displayTask));
     readTempHandle.start(callback(readTemp));
     readLightHandle.start(callback(readLight));
