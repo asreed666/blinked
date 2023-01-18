@@ -28,7 +28,19 @@ int wifiThreadTask()
         printf("ERROR: No WiFiInterface found.\n");
         return -1;
     } else {
-        printf("Connected to wifi");
+        printf("\nConnecting to %s...\n", MBED_CONF_APP_WIFI_SSID);
+        int ret = wifi->connect(MBED_CONF_APP_WIFI_SSID, MBED_CONF_APP_WIFI_PASSWORD, NSAPI_SECURITY_WPA_WPA2);
+        if (ret != 0) {
+            printf("\nConnection error: %d\n", ret);
+        return -1;
+    }
+        printf("Connected to wifi\n");
+        printf("MAC: %s\n", wifi->get_mac_address());
+        printf("IP: %s\n", wifi->get_ip_address());
+        printf("Netmask: %s\n", wifi->get_netmask());
+        printf("Gateway: %s\n", wifi->get_gateway());
+        printf("RSSI: %d\n\n", wifi->get_rssi());
+
     }
 
     while(true) {
