@@ -34,12 +34,16 @@ int wifiThreadTask()
             printf("\nConnection error: %d\n", ret);
         return -1;
     }
-        printf("Connected to wifi\n");
-        printf("MAC: %s\n", wifi->get_mac_address());
-        printf("IP: %s\n", wifi->get_ip_address());
-        printf("Netmask: %s\n", wifi->get_netmask());
-        printf("Gateway: %s\n", wifi->get_gateway());
-        printf("RSSI: %d\n\n", wifi->get_rssi());
+
+        /* print the network info */
+        SocketAddress a;
+        wifi->get_ip_address(&a);
+        printf("IP address: %s\r\n", a.get_ip_address() ? a.get_ip_address() : "None");
+        wifi->get_netmask(&a);
+        printf("Netmask: %s\r\n", a.get_ip_address() ? a.get_ip_address() : "None");
+        wifi->get_gateway(&a);
+        printf("Gateway: %s\r\n", a.get_ip_address() ? a.get_ip_address() : "None");
+
 
     }
 
