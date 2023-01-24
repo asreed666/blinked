@@ -38,11 +38,11 @@ int wifiThreadTask()
         /* print the network info */
         SocketAddress a;
         wifi->get_ip_address(&a);
-        printf("IP address: %s\r\n", a.get_ip_address() ? a.get_ip_address() : "None");
-        wifi->get_netmask(&a);
-        printf("Netmask: %s\r\n", a.get_ip_address() ? a.get_ip_address() : "None");
-        wifi->get_gateway(&a);
-        printf("Gateway: %s\r\n", a.get_ip_address() ? a.get_ip_address() : "None");
+        printf("\033[3;1HIP address: %s\r\n", a.get_ip_address() ? a.get_ip_address() : "None");
+    //    wifi->get_netmask(&a);
+    //    printf("Netmask: %s\r\n", a.get_ip_address() ? a.get_ip_address() : "None");
+    //    wifi->get_gateway(&a);
+    //    printf("Gateway: %s\r\n", a.get_ip_address() ? a.get_ip_address() : "None");
 
 
     }
