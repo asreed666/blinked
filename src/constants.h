@@ -5,7 +5,7 @@
 #define thermPower P10_3
 #define thermGround P10_0
 #define thermOut P10_1
-#define GREENLED P0_5
+#define GREENLED P12_3
 #define PUSH_BUTTON P0_4
 #define ALTSENSOR
 #ifndef ALTSENSOR
@@ -34,4 +34,5 @@ struct things_t {
     bool lightState;
     bool buttonState;
 };
+
 #endif

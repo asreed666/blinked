@@ -26,7 +26,7 @@ int main()
     wifiHandle.start(callback(runWifi));
     readTempHandle.start(callback(readTemp));
     lightLevelHandle.start(callback(readLightLevel));
-//    buttonHandle.start(callback(readButtonState));
+    buttonHandle.start(callback(readButtonState));
     displayHandle.start(callback(displayTask));
     buttonHandle.start(callback(readButtonState));
     while (true) {
