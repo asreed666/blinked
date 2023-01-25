@@ -29,7 +29,7 @@ void displayTask() {
       printf("\033[10;1H%s", myData.heaterState
                              ? "\033[41m \033[40m"
                              : "\033[42m \033[40m" );
-      printf("\033[12;3HLight Level: %3.0f%c \n", myData.lightL, '%');
+      printf("\033[12;3HLight Level: %3.0f%c \033[J", myData.lightL, '%');
       printf("\033[12;1H%s", myData.lightState
                              ? "\033[41m \033[40m"
                              : "\033[42m \033[40m" );

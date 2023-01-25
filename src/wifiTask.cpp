@@ -68,13 +68,14 @@ public:
 
         /* connect will perform the action appropriate to the interface type to connect to the network */
 
-        printf("Connecting to the network...\r\n");
+        printf("\033[3;1HConnecting to the network...\r\n");
 
         nsapi_size_or_error_t result = _net->connect();
         if (result != 0) {
             printf("Error! _net->connect() returned: %d\r\n", result);
             return;
         }
+        printf("\033[3;1HConnected to the network....\r\n");
 
         print_network_info();
 
@@ -241,11 +242,11 @@ private:
         /* print the network info */
         SocketAddress a;
         _net->get_ip_address(&a);
-        printf("\033[4;1HIP address: %s", a.get_ip_address() ? a.get_ip_address() : "None");
-        _net->get_netmask(&a);
-        printf("\033[5;1HNetmask: %s", a.get_ip_address() ? a.get_ip_address() : "None");
-        _net->get_gateway(&a);
-        printf("\033[6;1HGateway: %s", a.get_ip_address() ? a.get_ip_address() : "None");
+        printf("\033[5;1HIP address: %s", a.get_ip_address() ? a.get_ip_address() : "None");
+//        _net->get_netmask(&a);
+//        printf("\033[5;1HNetmask: %s", a.get_ip_address() ? a.get_ip_address() : "None");
+//        _net->get_gateway(&a);
+//        printf("\033[6;1HGateway: %s", a.get_ip_address() ? a.get_ip_address() : "None");
     }
 
 private:
