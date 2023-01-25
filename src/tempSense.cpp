@@ -5,8 +5,8 @@
 #include "constants.h"
 #include "mbed.h"
 
-DigitalOut vdd(thermPower);
-DigitalOut gnd(thermGround);
+//DigitalOut vdd(thermPower);
+//DigitalOut gnd(thermGround);
 AnalogIn temperatureVoltage(thermOut);
 extern things_t myData;
 

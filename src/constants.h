@@ -6,7 +6,7 @@
 #define thermGround P10_0
 #define thermOut P10_1
 #define GREENLED P12_3
-#define PUSH_BUTTON P0_4
+#define PUSH_BUTTON P10_4
 #define ALTSENSOR
 #ifndef ALTSENSOR
 #define lightOut P10_4
