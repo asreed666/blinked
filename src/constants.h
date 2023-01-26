@@ -5,8 +5,8 @@
 #define thermPower P10_3
 #define thermGround P10_0
 #define thermOut P10_1
-#define GREENLED P12_3
-#define PUSH_BUTTON P10_4
+#define GREENLED P0_5
+#define PUSH_BUTTON P10_4 // P0_4 doesn't work when wifi is running
 #define ALTSENSOR
 #ifndef ALTSENSOR
 #define lightOut P10_4
