@@ -5,7 +5,7 @@
 #define thermOut P10_1
 #define lightOut P10_4
 #define switchPort P10_3
-#define greenLed P12_3
+#define greenLed P0_5
 
 /* Reference resistor in series with the thermistor is of 10kohm */
 #define R_REFERENCE                         (float)(10000)
