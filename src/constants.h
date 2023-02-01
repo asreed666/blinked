@@ -6,13 +6,9 @@
 #define thermGround P10_0
 #define thermOut P10_1
 #define GREENLED P0_5
-#define PUSH_BUTTON P10_4 // P0_4 doesn't work when wifi is running
-#define ALTSENSOR
-#ifndef ALTSENSOR
+#define PUSH_BUTTON P10_3 // P0_4 doesn't work when wifi is running
 #define lightOut P10_4
-#else
-#define lightOut P10_2
-#endif
+
 /* Reference resistor in series with the thermistor is of 10kohm */
 #define R_REFERENCE                         (float)(10000)
 
