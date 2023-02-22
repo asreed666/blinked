@@ -10,7 +10,7 @@ void switchPos() {
     bool lastSwitchState = switchValue;
     bool pressed = false;
     while(true){ /* loop forever */
-        ThisThread::sleep_for(50ms);
+        ThisThread::sleep_for(50);
         if (switchValue == true) {
             pressed = true;
         }

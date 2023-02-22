@@ -10,10 +10,10 @@ void displayTask() {
   int period = 0;
   DigitalOut green(greenLed);
   printf("\033[2J"); // Clear the VT100 terminal display
-  ThisThread::sleep_for(1s);
+  ThisThread::sleep_for(1000);
   printf("\033[?25l");
   while (true) { /* loop forever */
-    ThisThread::sleep_for(100ms);
+    ThisThread::sleep_for(100);
     green = myData.switchState;
     if (period++ > 4) {
       printf("\033[H"); // put cursor in position 1,1

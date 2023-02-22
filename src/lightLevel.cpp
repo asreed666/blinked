@@ -15,6 +15,6 @@ void readLight() {
     if (myData.lightLevel < myData.setLight - 5.0f) {
         myData.lightState = true;
     }
-    ThisThread::sleep_for(100ms);
+    ThisThread::sleep_for(100);
   }
 }
