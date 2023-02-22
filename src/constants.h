@@ -1,7 +1,7 @@
 #ifndef CONSTANTS
 #define CONSTANTS
 // Blinking rate in milliseconds
-#define BLINKING_RATE     2s
+#define BLINKING_RATE     2000
 #define thermPower P10_3
 #define thermGround P10_0
 #define thermOut P10_1

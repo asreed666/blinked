@@ -9,7 +9,7 @@ void readButtonState() {
     bool lastSwitchState = userButton;
     bool pressed = false;
     while(true){ /* loop forever */
-        ThisThread::sleep_for(50ms);
+        ThisThread::sleep_for(50);
         if (userButton == true) {
             pressed = true;
         }

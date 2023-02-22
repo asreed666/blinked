@@ -19,6 +19,6 @@ void readLightLevel() {
         else if (myData.lightL < myData.setLightLevel - 5.0f) {
             myData.lightState = true;  // turn the lights on
         }
-        ThisThread::sleep_for(500ms);
+        ThisThread::sleep_for(500);
     }
 }
