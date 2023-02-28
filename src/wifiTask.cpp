@@ -17,9 +17,11 @@
 #include "mbed.h"
 #include "wifiTask.h"
 #include "config.h"
-#include "MQTTClientMbedOs.h"
+#include "mbed-mqtt/src/MQTTClientMbedOs.h"
 #include "wifi_helper.h"
 #include "mbed-trace/mbed_trace.h"
+#include <stdio.h>
+#include <string.h>
 
 #if MBED_CONF_APP_USE_TLS_SOCKET
 #include "root_ca_cert.h"
