@@ -107,7 +107,7 @@ void wifiThreadTask() {
       printf("Client connection failed");
     }
     MQTT::Message message{};
-    sprintf(buffer, "Hello World! from %s\r\n", THING_NAME);
+    sprintf(buffer, "Hello chaps! from %s\r\n", THING_NAME);
     message.qos = MQTT::QOS0;
     message.retained = false;
     message.dup = false;
