@@ -30,6 +30,31 @@
 #error "mbed-os-example-tls-socket requires a device which supports TRNG"
 #endif
 #endif // MBED_CONF_APP_USE_TLS_SOCKET
+#define align8 8
+static uint16_t qLen = 32;
+using pubPacket_t = struct {
+  int topic;
+  float value;
+} __attribute__((aligned(align8)));
+static auto qSize = 0;
+static pubPacket_t myQueue[qLen];
+static uint16_t stQueue = 0;
+static uint16_t endQueue = 0;
+static MemoryPool<pubPacket_t, 32> mpool1;
+static Queue<pubPacket_t, 32> pqueue;
+
+
+void sendPub(int pTopic, float pValue) {
+  if (qSize == qLen) {
+    printf("Publish queue is full!\n");
+  } else {
+    myQueue[stQueue].topic = pTopic;
+    myQueue[(stQueue++) % qLen].value = pValue;
+    qSize++;
+    if (stQueue >= qLen)
+      stQueue = 0;
+  }
+}
 
 class joinWifi {
     //static constexpr size_t MAX_NUMBER_OF_ACCESS_POINTS = 10;
@@ -135,6 +160,13 @@ public:
              
         else {
             printf("publish announce failed %d\n", rc);
+        }
+        while (true) {
+            ThisThread::sleep_for(10);
+            if (qSize > 0) {
+                // Deal with stuff that is on the queue for publishing to the broker
+                qSize--;
+            }
         }
 
     }

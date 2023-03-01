@@ -8,7 +8,7 @@
 #define BROKER          "192.168.1.176"
 #define PORT            1883
 
-#define THING_NAME      "asr_thing"
+#define THING_NAME      "asr_thang"
 
 #define TEMPERATURE_TOPIC   "/temperatureC"
 #define LIGHT_LEVEL_TOPIC   "/lightlevel"
