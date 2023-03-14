@@ -1,7 +1,7 @@
 #include "wifiThread.h"
 #include "MQTTClientMbedOs.h"
-#include "constants.h"
 #include "config.h"
+#include "constants.h"
 #include "mbed.h"
 
 WiFiInterface *wifi;
@@ -30,7 +30,6 @@ constexpr auto REL_HUMIDITY_TOPIC = 19;
 
 extern things_t myData;
 
-
 const char *sec2str(nsapi_security_t sec) {
   switch (sec) {
   case NSAPI_SECURITY_NONE:
@@ -53,12 +52,11 @@ void wifiThreadTask() {
   char topicBuffer[80];
   uint32_t rc;
   const char topicMap[NUM_TOPICS][TOPIC_LEN] = {
-      "light",   "lightState", "lightSwitch", "redled", "greenled",
-      "blueled", "announce",   "lthresh",     "latitude",  "longitude",
-      "temperature", "tempthresh", "rxCount", "txCount", "time", "statusled",
-      "orangeled", "heaterState", "heaterSwitch", "humidity"};
+      "light",       "lightState", "lightSwitch", "redled",       "greenled",
+      "blueled",     "announce",   "lthresh",     "latitude",     "longitude",
+      "temperature", "tempthresh", "rxCount",     "txCount",      "time",
+      "statusled",   "orangeled",  "heaterState", "heaterSwitch", "humidity"};
 
-  
   // Connect to wifi
   wifi = WiFiInterface::get_default_instance();
   if (!wifi) {
@@ -123,36 +121,36 @@ void wifiThreadTask() {
     else {
       printf("publish announce failed %d\n", rc);
     }
- 
 
-    while (true) {  // main publishing loop
-      sprintf(buffer, "%d", (int) myData.lightLevel);
-      message.payload = (void *)buffer;
-      message.payloadlen = strlen(buffer) + 1;
-      sprintf(topicBuffer, "%s/%s", THING_NAME,
-      topicMap[LIGHT_LEVELTOPIC]);
+    int publishCounter = 0;
+    while (true) { // main publishing loop
+      if (publishCounter++ > 100) {
+        publishCounter = 0;
+        sprintf(buffer, "%d", (int)myData.lightLevel);
+        message.payload = (void *)buffer;
+        message.payloadlen = strlen(buffer) + 1;
+        sprintf(topicBuffer, "%s/%s", THING_NAME, topicMap[LIGHT_LEVELTOPIC]);
 
-      rc = client.publish(topicBuffer, message);
-      if (rc == 0)
-        printf("publish LL OK\n");
-      else {
-        printf("publish LL failed %d\n", rc);
+        rc = client.publish(topicBuffer, message);
+        if (rc == 0)
+          printf("publish LL OK\n");
+        else {
+          printf("publish LL failed %d\n", rc);
+        }
+        sprintf(buffer, "%02.1f", myData.temperature);
+        message.payload = (void *)buffer;
+        message.payloadlen = strlen(buffer) + 1;
+        sprintf(topicBuffer, "%s/%s", THING_NAME, topicMap[TEMPERATURETOPIC]);
+
+        rc = client.publish(topicBuffer, message);
+        if (rc == 0)
+          printf("publish Temp OK\n");
+        else {
+          printf("publish Temp failed %d\n", rc);
+        }
       }
-      sprintf(buffer, "%02.1f", myData.temperature);
-      message.payload = (void *)buffer;
-      message.payloadlen = strlen(buffer) + 1;
-      sprintf(topicBuffer, "%s/%s", THING_NAME,
-      topicMap[TEMPERATURETOPIC]);
-
-      rc = client.publish(topicBuffer, message);
-      if (rc == 0)
-        printf("publish Temp OK\n");
-      else {
-        printf("publish Temp failed %d\n", rc);
-      }
-
       rc = client.yield(100);
-      ThisThread::sleep_for(30000);
+      ThisThread::sleep_for(100);
     }
   }
 }
