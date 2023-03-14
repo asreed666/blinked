@@ -28,6 +28,9 @@ constexpr auto HEATER_STATE_TOPIC = 17;
 constexpr auto HEATER_SWITCH_TOPIC = 18;
 constexpr auto REL_HUMIDITY_TOPIC = 19;
 
+extern things_t myData;
+
+
 const char *sec2str(nsapi_security_t sec) {
   switch (sec) {
   case NSAPI_SECURITY_NONE:
@@ -120,9 +123,36 @@ void wifiThreadTask() {
     else {
       printf("publish announce failed %d\n", rc);
     }
-  }
+ 
 
-  while (true) {
-    ThisThread::sleep_for(100);
+    while (true) {  // main publishing loop
+      sprintf(buffer, "%d", (int) myData.lightLevel);
+      message.payload = (void *)buffer;
+      message.payloadlen = strlen(buffer) + 1;
+      sprintf(topicBuffer, "%s/%s", THING_NAME,
+      topicMap[LIGHT_LEVELTOPIC]);
+
+      rc = client.publish(topicBuffer, message);
+      if (rc == 0)
+        printf("publish LL OK\n");
+      else {
+        printf("publish LL failed %d\n", rc);
+      }
+      sprintf(buffer, "%02.1f", myData.temperature);
+      message.payload = (void *)buffer;
+      message.payloadlen = strlen(buffer) + 1;
+      sprintf(topicBuffer, "%s/%s", THING_NAME,
+      topicMap[TEMPERATURETOPIC]);
+
+      rc = client.publish(topicBuffer, message);
+      if (rc == 0)
+        printf("publish Temp OK\n");
+      else {
+        printf("publish Temp failed %d\n", rc);
+      }
+
+      rc = client.yield(100);
+      ThisThread::sleep_for(30000);
+    }
   }
 }
