@@ -177,11 +177,17 @@ public:
             if (qSize > 0) {
                 sprintf(buffer, "%f", myQueue[endQueue].value);
                 sprintf(topicBuffer, "%s/%s", THING_NAME,
-                topicMap[myQueue[endQueue++].topic]);
+                        topicMap[myQueue[endQueue++].topic]);
                 qSize--;
                 if (endQueue >= qLen){
                     endQueue = 0;
                 }
+
+                message.payload = (void *)buffer;
+                message.payloadlen = strlen(&buffer[0]) + 1;
+
+                rc=client.publish(&topicBuffer[0], message);
+
             }
         }
 
