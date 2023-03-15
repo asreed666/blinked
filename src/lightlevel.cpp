@@ -4,12 +4,13 @@
 #include "mbed.h"
 #include "constants.h"
 #include "lightlevel.h"
+#include "wifiTask.h"
 
 AnalogIn lightLevelVoltage( lightOut );
 extern things_t myData;
 
 void readLightLevel() {
-
+    int pubRate = 0;
     while(true) {
     // Read the light dependent resistor voltage
         myData.lightL = lightLevelVoltage.read() * 100; // Range of ADC.read 0->1
@@ -18,6 +19,10 @@ void readLightLevel() {
         }
         else if (myData.lightL < myData.setLightLevel - 5.0f) {
             myData.lightState = true;  // turn the lights on
+        }
+        if (pubRate++ > 20) {
+            sendPub(LIGHT_LEVEL_TOPIC, myData.lightL);
+            pubRate = 0;
         }
         ThisThread::sleep_for(500);
     }

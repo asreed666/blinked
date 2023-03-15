@@ -10,8 +10,8 @@
 
 #define THING_NAME      "asr_thang"
 
-#define TEMPERATURE_TOPIC   "/temperatureC"
-#define LIGHT_LEVEL_TOPIC   "/lightlevel"
+//#define TEMPERATURE_TOPIC   "/temperatureC"
+//#define LIGHT_LEVEL_TOPIC   "/lightlevel"
 #define ANNOUNCE_TOPIC      "/announce"
 
 #endif

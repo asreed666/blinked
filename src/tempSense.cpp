@@ -4,13 +4,16 @@
 #include "tempSense.h"
 #include "constants.h"
 #include "mbed.h"
+#include "wifiTask.h"
 
 //DigitalOut vdd(thermPower);
 //DigitalOut gnd(thermGround);
 AnalogIn temperatureVoltage(thermOut);
 extern things_t myData;
 
+
 void readTemp() {
+    int pubRate = 0;
   //  Apply power to the thermistor
   //    gnd = false;
   //    vdd = true;
@@ -36,6 +39,11 @@ void readTemp() {
     else if (myData.tempC < myData.setTemp - 2.0f) {
         myData.heaterState = true;  // turn the heater on
     }
+    if (pubRate++ > 20) {
+        sendPub(TEMPERATURE_TOPIC, myData.tempC);
+        pubRate = 0;
+    }
+
     ThisThread::sleep_for(500);
 
   }
