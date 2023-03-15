@@ -17,11 +17,16 @@
 #include "mbed.h"
 #include "wifiTask.h"
 #include "config.h"
-#include "mbed-mqtt/src/MQTTClientMbedOs.h"
+//#include "mbed-mqtt/src/MQTTClientMbedOs.h"
 #include "wifi_helper.h"
 #include "mbed-trace/mbed_trace.h"
 #include <stdio.h>
 #include <string.h>
+#ifndef MBED_CONF_MBED_MQTT_MAX_PACKET_SIZE
+#define MBED_CONF_MBED_MQTT_MAX_PACKET_SIZE 1024
+#define MBED_CONF_MBED_MQTT_MAX_CONNECTIONS 32
+#endif
+#include "mbed-mqtt/src/MQTTClientMbedOs.h"
 
 #if MBED_CONF_APP_USE_TLS_SOCKET
 #include "root_ca_cert.h"
@@ -31,7 +36,7 @@
 #endif
 #endif // MBED_CONF_APP_USE_TLS_SOCKET
 #define align8 8
-static uint16_t qLen = 32;
+const static uint16_t qLen = 32;
 using pubPacket_t = struct {
   int topic;
   float value;
@@ -42,6 +47,12 @@ static uint16_t stQueue = 0;
 static uint16_t endQueue = 0;
 static MemoryPool<pubPacket_t, 32> mpool1;
 static Queue<pubPacket_t, 32> pqueue;
+const char topicMap[NUM_TOPICS][TOPIC_LEN] = {
+      "light",   "lightState", "lightSwitch", "redled", "greenled",
+      "blueled", "announce",   "lthresh",     "latitude",  "longitude",
+      "temperature", "tempthresh", "rxCount", "txCount", "time", "statusled",
+      "orangeled", "heaterState", "heaterSwitch", "humidity"};
+
 
 
 void sendPub(int pTopic, float pValue) {
@@ -164,8 +175,13 @@ public:
         while (true) {
             ThisThread::sleep_for(10);
             if (qSize > 0) {
-                // Deal with stuff that is on the queue for publishing to the broker
+                sprintf(buffer, "%f", myQueue[endQueue].value);
+                sprintf(topicBuffer, "%s/%s", THING_NAME,
+                topicMap[myQueue[endQueue++].topic]);
                 qSize--;
+                if (endQueue >= qLen){
+                    endQueue = 0;
+                }
             }
         }
 
