@@ -39,7 +39,7 @@ void readTemp() {
     else if (myData.tempC < myData.setTemp - 2.0f) {
         myData.heaterState = true;  // turn the heater on
     }
-    if (pubRate++ > 20) {
+    if (pubRate++ > PUB_PERIOD) {
         sendPub(TEMPERATURE_TOPIC, myData.tempC);
         pubRate = 0;
     }

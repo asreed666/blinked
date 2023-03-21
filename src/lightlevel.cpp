@@ -20,7 +20,7 @@ void readLightLevel() {
         else if (myData.lightL < myData.setLightLevel - 5.0f) {
             myData.lightState = true;  // turn the lights on
         }
-        if (pubRate++ > 20) {
+        if (pubRate++ > PUB_PERIOD) {
             sendPub(LIGHT_LEVEL_TOPIC, myData.lightL);
             pubRate = 0;
         }
