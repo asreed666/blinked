@@ -29,6 +29,9 @@ constexpr auto HEATER_SWITCH_TOPIC = 18;
 constexpr auto REL_HUMIDITY_TOPIC = 19;
 
 extern things_t myData;
+extern bool displayUp;
+uint32_t rxCount = 0;
+DigitalOut rxLed(RXLED);
 
 const char *sec2str(nsapi_security_t sec) {
   switch (sec) {
@@ -46,6 +49,17 @@ const char *sec2str(nsapi_security_t sec) {
   default:
     return "Unknown";
   }
+}
+
+void messageLightSetArrived(MQTT::MessageData &md) {
+  MQTT::Message &message = md.message;
+  uint32_t len = md.message.payloadlen;
+  char rxed[len + 1];
+
+  strncpy(&rxed[0], (char *)(&md.message.payload)[0], len);
+  myData.setLight = atoi(rxed);
+  rxCount++;
+  rxLed = !rxLed;
 }
 void wifiThreadTask() {
   char buffer[80];
@@ -121,6 +135,13 @@ void wifiThreadTask() {
     else {
       printf("publish announce failed %d\n", rc);
     }
+    rc = client.subscribe(LIGHT_LEVEL_SET_TOPIC, MQTT::QOS0,
+                              messageLightSetArrived);
+    if (rc != 0)
+      sprintf(buffer, "Subscription Error %d", rc);
+    else
+      sprintf(buffer, "Subscribed to %s", LIGHT_LEVEL_SET_TOPIC);
+    printf("%s", buffer);
 
     int publishCounter = 0;
     while (true) { // main publishing loop

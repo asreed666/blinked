@@ -34,6 +34,8 @@ void displayTask() {
                                          ? "\033[1;41m \033[0;40m" 
                                          : "\033[1;42m \033[0;40m");
       printf("\033[12;3HLight is at %3.0f%c\n", myData.lightLevel, '%');
+      printf("\033[13;3HLight is set at %3.0f%c\n", myData.setLight, '%');
+
       period = 0;
     }
   }
