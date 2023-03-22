@@ -9,6 +9,7 @@
 #define GREENLED P0_5
 #define PUSH_BUTTON P10_3 // P0_4 doesn't work when wifi is running
 #define lightOut P10_4
+#define RXLED P12_3
 
 /* Reference resistor in series with the thermistor is of 10kohm */
 #define R_REFERENCE                         (float)(10000)

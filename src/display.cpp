@@ -33,6 +33,8 @@ void displayTask() {
       printf("\033[12;1H%s", myData.lightState
                              ? "\033[41m \033[40m"
                              : "\033[42m \033[40m" );
+      printf("\033[11;3HSet Light Level: %3.0f%c", myData.setLightLevel, '%');
+
       ThisThread::sleep_for(500);
     }
 

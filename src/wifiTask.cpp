@@ -22,6 +22,7 @@
 #include "mbed-trace/mbed_trace.h"
 #include <stdio.h>
 #include <string.h>
+#include "constants.h"
 #ifndef MBED_CONF_MBED_MQTT_MAX_PACKET_SIZE
 #define MBED_CONF_MBED_MQTT_MAX_PACKET_SIZE 1024
 #define MBED_CONF_MBED_MQTT_MAX_CONNECTIONS 32
@@ -52,8 +53,10 @@ const char topicMap[NUM_TOPICS][TOPIC_LEN] = {
       "blueled", "announce",   "lthresh",     "latitude",  "longitude",
       "temperature", "tempthresh", "rxCount", "txCount", "time", "statusled",
       "orangeled", "heaterState", "heaterSwitch", "humidity"};
-
-
+extern things_t myData;
+extern bool displayUp;
+uint32_t rxCount = 0;
+DigitalOut rxLed(RXLED);
 
 void sendPub(int pTopic, float pValue) {
   if (qSize == qLen) {
@@ -172,6 +175,16 @@ public:
         else {
             printf("publish announce failed %d\n", rc);
         }
+
+        rc = client.subscribe(LIGHT_SET_TOPIC, MQTT::QOS0,
+                              messageLightSetArrived);
+        if (rc != 0)
+            sprintf(buffer, "Subscription Error %d", rc);
+        else
+            sprintf(buffer, "Subscribed to %s", LIGHT_SET_TOPIC);
+        printf("%s", buffer);
+        rxLed = 1;
+
         while (true) {
             ThisThread::sleep_for(10);
             if (qSize > 0) {
@@ -194,7 +207,17 @@ public:
     }
 
 private:
- 
+    static void messageLightSetArrived(MQTT::MessageData &md) {
+      MQTT::Message &message = md.message;
+        uint32_t len = md.message.payloadlen;
+        char rxed[len + 1];
+
+        strncpy(&rxed[0], (char *)(&md.message.payload)[0], len);
+        myData.setLightLevel = atoi(rxed);
+        rxCount++;
+        rxLed = !rxLed;
+    }
+private:
     void print_network_info()
     {
         /* print the network info */
