@@ -187,6 +187,7 @@ public:
 
         while (true) {
             ThisThread::sleep_for(10);
+            client.yield(10);
             if (qSize > 0) {
                 sprintf(buffer, "%f", myQueue[endQueue].value);
                 sprintf(topicBuffer, "%s/%s", THING_NAME,
