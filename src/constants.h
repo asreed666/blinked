@@ -29,4 +29,5 @@ struct things_t {
     float setLight = 50.0f;
     bool lightState = false;
     bool switchState;
+    int rxCount;
 };

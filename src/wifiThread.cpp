@@ -3,7 +3,10 @@
 #include "config.h"
 #include "constants.h"
 #include "mbed.h"
-
+#include "stdio.h"
+#include "string.h"
+//extern size_t strncpy(char *, char *, size_t);
+//extern size_t strlen(char *);
 WiFiInterface *wifi;
 constexpr int NUM_TOPICS = 20;
 constexpr int TOPIC_LEN = 80;
@@ -58,7 +61,17 @@ void messageLightSetArrived(MQTT::MessageData &md) {
 
   strncpy(&rxed[0], (char *)(&md.message.payload)[0], len);
   myData.setLight = atoi(rxed);
-  rxCount++;
+  myData.rxCount++;
+  rxLed = !rxLed;
+}
+void messageTempSetArrived(MQTT::MessageData &md) {
+  MQTT::Message &message = md.message;
+  uint32_t len = md.message.payloadlen;
+  char rxed[len + 1];
+
+  strncpy(&rxed[0], (char *)(&md.message.payload)[0], len);
+  myData.setTemp = atof(rxed);
+  myData.rxCount++;
   rxLed = !rxLed;
 }
 void wifiThreadTask() {
@@ -67,8 +80,8 @@ void wifiThreadTask() {
   uint32_t rc;
   const char topicMap[NUM_TOPICS][TOPIC_LEN] = {
       "light",       "lightState", "lightSwitch", "redled",       "greenled",
-      "blueled",     "announce",   "lthresh",     "latitude",     "longitude",
-      "temperature", "tempthresh", "rxCount",     "txCount",      "time",
+      "blueled",     "announce",   "lightSet",     "latitude",     "longitude",
+      "temperature", "tempSet", "rxCount",     "txCount",      "time",
       "statusled",   "orangeled",  "heaterState", "heaterSwitch", "humidity"};
 
   // Connect to wifi
@@ -141,6 +154,13 @@ void wifiThreadTask() {
       sprintf(buffer, "Subscription Error %d", rc);
     else
       sprintf(buffer, "Subscribed to %s", LIGHT_LEVEL_SET_TOPIC);
+    printf("%s", buffer);    
+    rc = client.subscribe(TEMPERATURE_SET_TOPIC, MQTT::QOS0,
+                              messageTempSetArrived);
+    if (rc != 0)
+      sprintf(buffer, "Subscription Error %d", rc);
+    else
+      sprintf(buffer, "Subscribed to %s", TEMPERATURE_SET_TOPIC);
     printf("%s", buffer);
 
     int publishCounter = 0;

@@ -35,6 +35,8 @@ void displayTask() {
                                          : "\033[1;42m \033[0;40m");
       printf("\033[12;3HLight is at %3.0f%c\n", myData.lightLevel, '%');
       printf("\033[13;3HLight is set at %3.0f%c\n", myData.setLight, '%');
+      printf("\033[11;3HTemp is set at %3.0fC\n", myData.setTemp);
+      printf("\033[8;50H%d", myData.rxCount);
 
       period = 0;
     }
