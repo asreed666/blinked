@@ -5,6 +5,8 @@
 #include "mbed.h"
 #include "stdio.h"
 #include "string.h"
+#undef DEBUG //enable DEBUG for extra text output
+//#define DEBUG
 //extern size_t strncpy(char *, char *, size_t);
 //extern size_t strlen(char *);
 WiFiInterface *wifi;
@@ -173,22 +175,25 @@ void wifiThreadTask() {
         sprintf(topicBuffer, "%s/%s", THING_NAME, topicMap[LIGHT_LEVELTOPIC]);
 
         rc = client.publish(topicBuffer, message);
+#ifdef DEBUG
         if (rc == 0)
           printf("publish LL OK\n");
         else {
           printf("publish LL failed %d\n", rc);
         }
+#endif
         sprintf(buffer, "%02.1f", myData.temperature);
         message.payload = (void *)buffer;
         message.payloadlen = strlen(buffer) + 1;
         sprintf(topicBuffer, "%s/%s", THING_NAME, topicMap[TEMPERATURETOPIC]);
-
         rc = client.publish(topicBuffer, message);
+#ifdef DEBUG
         if (rc == 0)
           printf("publish Temp OK\n");
         else {
           printf("publish Temp failed %d\n", rc);
         }
+#endif
       }
       rc = client.yield(100);
       ThisThread::sleep_for(100);
