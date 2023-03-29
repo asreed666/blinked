@@ -13,6 +13,7 @@
 //#define TEMPERATURE_TOPIC   "/temperatureC"
 //#define LIGHT_LEVEL_TOPIC   "/lightlevel"
 #define ANNOUNCE_TOPIC      "/announce"
-#define LIGHT_SET_TOPIC "asrThingy/lthresh"
+#define LIGHT_SET_TOPIC "asrThingy/lightSet"
+#define TEMP_SET_TOPIC "asrThingy/tempSet"
 
 #endif

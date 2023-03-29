@@ -27,6 +27,8 @@
 #define MBED_CONF_MBED_MQTT_MAX_PACKET_SIZE 1024
 #define MBED_CONF_MBED_MQTT_MAX_CONNECTIONS 32
 #endif
+#define DEBUG
+//#undef DEBUG
 #include "mbed-mqtt/src/MQTTClientMbedOs.h"
 
 #if MBED_CONF_APP_USE_TLS_SOCKET
@@ -50,8 +52,8 @@ static MemoryPool<pubPacket_t, 32> mpool1;
 static Queue<pubPacket_t, 32> pqueue;
 const char topicMap[NUM_TOPICS][TOPIC_LEN] = {
       "light",   "lightState", "lightSwitch", "redled", "greenled",
-      "blueled", "announce",   "lthresh",     "latitude",  "longitude",
-      "temperature", "tempthresh", "rxCount", "txCount", "time", "statusled",
+      "blueled", "announce",   "lightSet",     "latitude",  "longitude",
+      "temperature", "tempSet", "rxCount", "txCount", "time", "statusled",
       "orangeled", "heaterState", "heaterSwitch", "humidity"};
 extern things_t myData;
 extern bool displayUp;
@@ -178,11 +180,22 @@ public:
 
         rc = client.subscribe(LIGHT_SET_TOPIC, MQTT::QOS0,
                               messageLightSetArrived);
+#ifdef DEBUG
         if (rc != 0)
             sprintf(buffer, "Subscription Error %d", rc);
         else
             sprintf(buffer, "Subscribed to %s", LIGHT_SET_TOPIC);
         printf("%s", buffer);
+#endif
+        rc = client.subscribe(TEMP_SET_TOPIC, MQTT::QOS0,
+                              messageTempSetArrived);
+#ifdef DEBUG
+        if (rc != 0)
+            sprintf(buffer, "Subscription Error %d", rc);
+        else
+            sprintf(buffer, "Subscribed to %s", TEMP_SET_TOPIC);
+        printf("%s", buffer);
+#endif
         rxLed = 1;
 
         while (true) {
@@ -206,7 +219,6 @@ public:
         }
 
     }
-
 private:
     static void messageLightSetArrived(MQTT::MessageData &md) {
       MQTT::Message &message = md.message;
@@ -215,6 +227,17 @@ private:
 
         strncpy(&rxed[0], (char *)(&md.message.payload)[0], len);
         myData.setLightLevel = atoi(rxed);
+        rxCount++;
+        rxLed = !rxLed;
+    }
+private:
+    static void messageTempSetArrived(MQTT::MessageData &md) {
+      MQTT::Message &message = md.message;
+        uint32_t len = md.message.payloadlen;
+        char rxed[len + 1];
+
+        strncpy(&rxed[0], (char *)(&md.message.payload)[0], len);
+        myData.setTemp = atof(rxed);
         rxCount++;
         rxLed = !rxLed;
     }

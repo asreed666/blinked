@@ -34,6 +34,7 @@ void displayTask() {
                              ? "\033[41m \033[40m"
                              : "\033[42m \033[40m" );
       printf("\033[11;3HSet Light Level: %3.0f%c", myData.setLightLevel, '%');
+      printf("\033[11;40HTemp set to: %3.1fc", myData.setTemp);
 
       ThisThread::sleep_for(500);
     }
