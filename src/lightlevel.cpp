@@ -22,6 +22,7 @@ void readLightLevel() {
         }
         if (pubRate++ > PUB_PERIOD) {
             sendPub(LIGHT_LEVEL_TOPIC, myData.lightL);
+            sendPub(LIGHT_STATE_TOPIC, myData.lightState);
             pubRate = 0;
         }
         ThisThread::sleep_for(500);
